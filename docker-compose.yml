@@ -1,0 +1,38 @@
+version: '3.1'
+
+services:
+  mysql:
+    image: mysql-api-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: starwars-api-db
+  load-balancer:
+    image: ribbon-server
+    ports:
+      - 8080:8080
+  api-inst-1:
+    image: starwarsapi
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - 8081:8081
+  api-inst-2:
+    image: starwarsapi
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - 8082:8081
+  api-inst-3:
+    image: starwarsapi
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    ports:
+      - 8083:8081
